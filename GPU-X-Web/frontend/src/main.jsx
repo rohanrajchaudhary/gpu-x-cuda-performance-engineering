@@ -13,26 +13,57 @@ import "./styles.css";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
+// Fallback Benchmark Data for Offline/Cached Mode
+const CACHED_BENCHMARK_DATA = {
+  benchmark: {
+    matrix_size: "1024 × 1024",
+    best_tile: "16 × 16",
+    cpu_ms: 5119.9697,
+    best_gpu_ms: 4.4145,
+    speedup: 1173,
+    verification: "PASSED (Cached Metrics)",
+  },
+  optimization: {
+    shared_memory: true,
+    tiled_matrix_multiplication: true,
+    register_optimization: true,
+    fast_math: true,
+    profiling: true,
+  },
+  nsight: {
+    compute_throughput: 98.49,
+    memory_throughput: 98.49,
+    l1_tex_throughput: 98.55,
+    dram_throughput: 57.31,
+    theoretical_occupancy: 100,
+    achieved_occupancy: 98.97,
+    registers_per_thread: 40,
+  },
+};
+
 function App() {
   const [size, setSize] = useState(1024);
   const [tile, setTile] = useState(16);
 
   const [running, setRunning] = useState(false);
   const [health, setHealth] = useState(null);
-  const [data, setData] = useState(null);
+
+  // Default initial state uses cached data so the page is never empty
+  const [data, setData] = useState(CACHED_BENCHMARK_DATA);
   const [error, setError] = useState("");
 
   useEffect(() => {
     fetch(`${API}/health`)
       .then((res) => res.json())
       .then((result) => setHealth(result))
-      .catch(() => setHealth({ status: "offline" }));
+      .catch(() =>
+        setHealth({ status: "offline", gpu: "NVIDIA Cloud GPU (Offline Mode)" })
+      );
   }, []);
 
   async function runBenchmark() {
     setRunning(true);
     setError("");
-    setData(null);
 
     try {
       const response = await fetch(`${API}/api/benchmark`, {
@@ -54,9 +85,15 @@ function App() {
         throw new Error(result.detail || "Benchmark failed");
       }
 
+      // Live GPU response
       setData(result);
     } catch (err) {
-      setError(err.message || "Unable to run benchmark");
+      console.warn("Colab server offline/error. Fallback to cached metrics.", err);
+      // Fallback to static metrics when backend is unreachable
+      setData(CACHED_BENCHMARK_DATA);
+      setError(
+        "GPU Backend is currently offline. Showing cached benchmark results."
+      );
     } finally {
       setRunning(false);
     }
@@ -79,7 +116,7 @@ function App() {
       ]
     : [];
 
-  const gpuInfo = health?.gpu || "GPU information unavailable";
+  const gpuInfo = health?.gpu || "NVIDIA Cloud GPU (Cached Benchmark)";
 
   return (
     <div className="app">
@@ -102,7 +139,7 @@ function App() {
           }`}
         >
           <span className="status-dot"></span>
-          {health?.status === "ok" ? "GPU ONLINE" : "GPU OFFLINE"}
+          {health?.status === "ok" ? "GPU ONLINE" : "GPU OFFLINE (CACHED)"}
         </div>
       </header>
 
@@ -127,9 +164,7 @@ function App() {
           <div className="gpu-card">
             <div className="gpu-label">NVIDIA GPU</div>
 
-            <div className="gpu-name">
-              {gpuInfo}
-            </div>
+            <div className="gpu-name">{gpuInfo}</div>
 
             <div className="gpu-description">
               CUDA-powered benchmark backend
@@ -210,13 +245,6 @@ function App() {
               )}
             </div>
 
-            {!data && !running && (
-              <div className="empty-state">
-                <div className="empty-icon">⚡</div>
-                <div>Run a benchmark to populate live performance metrics.</div>
-              </div>
-            )}
-
             {running && (
               <div className="loading-state">
                 <div className="large-spinner"></div>
@@ -230,7 +258,7 @@ function App() {
               </div>
             )}
 
-            {data && (
+            {!running && data && (
               <>
                 <div className="metric-grid">
                   <div className="metric-card">
@@ -324,10 +352,10 @@ function App() {
           </div>
         </section>
 
-        {/* ERROR */}
+        {/* NOTICE / ERROR */}
         {error && (
           <div className="error-box">
-            <strong>Benchmark Error</strong>
+            <strong>Backend Status Notice</strong>
             <span>{error}</span>
           </div>
         )}
