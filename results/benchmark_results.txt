@@ -1,0 +1,121 @@
+========================================
+          GPU-X FINAL RESULTS
+========================================
+
+GPU:
+NVIDIA GeForce RTX 2050
+Compute Capability: 8.6
+
+Matrix Size:
+1024 x 1024
+
+----------------------------------------
+BASELINE
+----------------------------------------
+
+CPU Matrix Multiplication:
+5119.9697 ms
+
+Naive GPU:
+5.8519 ms
+
+----------------------------------------
+OPTIMIZATION RESULTS
+----------------------------------------
+
+Tiled GPU:
+4.6238 ms
+
+Best Tile Size:
+16 x 16
+
+Fast Math:
+4.4145 ms
+
+Phase 7B Memory Optimization:
+4.4257 ms
+
+Phase 7 Optimization:
+4.4421 ms
+
+----------------------------------------
+FINAL BENCHMARK
+----------------------------------------
+
+CPU:
+5119.9697 ms
+
+Naive GPU:
+5.8519 ms
+
+Optimized GPU:
+4.4236 ms
+
+----------------------------------------
+SPEEDUP
+----------------------------------------
+
+CPU -> Naive GPU:
+874.9190x
+
+CPU -> Optimized GPU:
+1157.4257x
+
+Naive -> Optimized:
+1.3229x
+
+Optimization Improvement:
+24.4082%
+
+----------------------------------------
+VERIFICATION
+----------------------------------------
+
+CPU:
+PASSED
+
+Naive GPU:
+PASSED
+
+Optimized GPU:
+PASSED
+
+----------------------------------------
+NSIGHT COMPUTE
+----------------------------------------
+
+Compute Throughput:
+98.49%
+
+Memory Throughput:
+98.49%
+
+L1/TEX Throughput:
+98.55%
+
+DRAM Throughput:
+57.31%
+
+Theoretical Occupancy:
+100%
+
+Achieved Occupancy:
+98.97%
+
+Registers / Thread:
+40
+
+----------------------------------------
+PROJECT BEST
+----------------------------------------
+
+Best Kernel Time:
+4.4145 ms
+
+CPU Baseline:
+5119.9697 ms
+
+Approximate CPU -> GPU Speedup:
+1173x
+
+========================================

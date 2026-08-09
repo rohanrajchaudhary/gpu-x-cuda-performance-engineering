@@ -1,0 +1,40 @@
+﻿# Build
+build/
+*.exe
+*.obj
+*.pdb
+*.lib
+*.exp
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# CUDA generated files
+*.ptx
+*.cubin
+*.fatbin
+*.nvvm
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+
+# Profiling
+*.ncu-rep
+*.ncu-rep.zip
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Temporary
+temp/
+tmp/
