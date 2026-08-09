@@ -1,5 +1,13 @@
 # ⚡ GPU-X
 
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://gpu-x-cuda-performance-engineering.vercel.app/)
+[![GitHub Repo](https://img.shields.io/badge/📦_Repository-GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/rohanrajchaudhary/gpu-x-cuda-performance-engineering)
+
+* **🌐 Live Web App:** [gpu-x-cuda-performance-engineering.vercel.app](https://gpu-x-cuda-performance-engineering.vercel.app/)
+* **📂 GitHub Repository:** [github.com/rohanrajchaudhary/gpu-x-cuda-performance-engineering](https://github.com/rohanrajchaudhary/gpu-x-cuda-performance-engineering)
+
+---
+
 ## CUDA GPU Performance Optimization & Benchmarking
 
 **GPU-X** is a CUDA-based GPU performance engineering project focused on **matrix multiplication optimization, GPU memory behavior, kernel tuning, benchmarking, and NVIDIA Nsight Compute profiling**.
